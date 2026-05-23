@@ -1,7 +1,7 @@
 # Humidifier Template
 
 A Home Assistant custom integration that creates a template-based humidifier
-entity. It is based on the same pattern as template climate integrations, but
+entity. It is based on [jcwillox/hass-template-climate](https://github.com/jcwillox/hass-template-climate), but
 for the `humidifier` domain.
 
 ## Installation With HACS
@@ -15,7 +15,7 @@ for the `humidifier` domain.
 
 ## Example Configuration
 
-Add this to configurator.yaml under the standard Home Assistant `humidifier:` key:
+Add this to configuration.yaml
 
 ```yaml
 humidifier:
