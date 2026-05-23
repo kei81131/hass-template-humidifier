@@ -2,7 +2,7 @@
   "domain": "humidifier_template",
   "name": "Humidifier Template",
   "codeowners": [
-    "@YOUR_GITHUB_USERNAME"
+    "@kei81131"
   ],
   "dependencies": [
     "template"
