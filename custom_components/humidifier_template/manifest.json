@@ -1,0 +1,15 @@
+{
+  "domain": "humidifier_template",
+  "name": "Humidifier Template",
+  "codeowners": [
+    "@YOUR_GITHUB_USERNAME"
+  ],
+  "dependencies": [
+    "template"
+  ],
+  "documentation": "https://github.com/kei81131/hass-humidifier-template",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/kei81131/hass-humidifier-template/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

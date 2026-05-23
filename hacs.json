@@ -1,0 +1,8 @@
+{
+  "name": "Humidifier Template",
+  "render_readme": true,
+  "domains": [
+    "humidifier"
+  ],
+  "iot_class": "calculated"
+}
