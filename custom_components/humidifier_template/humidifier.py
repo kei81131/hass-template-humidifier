@@ -22,11 +22,26 @@ from homeassistant.components.humidifier.const import (
     DEFAULT_MIN_HUMIDITY,
 )
 from homeassistant.components.template.const import CONF_AVAILABILITY_TEMPLATE
-from homeassistant.components.template.helpers import (
-    async_create_template_tracking_entities,
-    validate_template_scripts,
-)
-from homeassistant.components.template.schemas import make_template_entity_base_schema
+try:
+    from homeassistant.components.template.helpers import (
+        async_create_template_tracking_entities,
+        validate_actions_and_conditions_config,
+    )
+except ImportError:
+    # Home Assistant < 2026.9
+    from homeassistant.components.template.helpers import (
+        async_create_template_tracking_entities,
+        validate_template_scripts as validate_actions_and_conditions_config,
+    )
+try:
+    from homeassistant.components.template.schemas import (
+        make_template_entity_common_schema,
+    )
+except ImportError:
+    # Home Assistant < 2026.9
+    from homeassistant.components.template.schemas import (
+        make_template_entity_base_schema as make_template_entity_common_schema,
+    )
 from homeassistant.components.template.template_entity import TemplateEntity
 from homeassistant.const import (
     ATTR_MODE,
@@ -81,7 +96,7 @@ def _humidity(value):
 
 
 PLATFORM_SCHEMA = cv.PLATFORM_SCHEMA.extend(
-    make_template_entity_base_schema(HUMIDIFIER_DOMAIN, DEFAULT_NAME).schema
+    make_template_entity_common_schema(HUMIDIFIER_DOMAIN, DEFAULT_NAME).schema
 ).extend(
     {
         vol.Optional(CONF_AVAILABILITY_TEMPLATE): cv.template,
@@ -118,7 +133,11 @@ async def async_setup_platform(
 ):
     """Set up the Template Humidifier."""
     await async_setup_reload_service(hass, DOMAIN, PLATFORMS)
-    await validate_template_scripts(hass, config, SCRIPT_OPTIONS)
+    validation_result = await validate_actions_and_conditions_config(
+        hass, config, SCRIPT_OPTIONS
+    )
+    if validation_result is False:
+        return
     async_create_template_tracking_entities(
         TemplateHumidifier,
         async_add_entities,
